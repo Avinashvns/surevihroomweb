@@ -1,26 +1,3 @@
-// import { Box, Card, Typography } from "@mui/material";
-// import BasicCard from "../../component/Card";
-// import myPrimaryColor from '../../utils/Mytheme';
-// import { Headingtext } from "../../utils/Mytypography";
-
-// export default function Signin() {
-//     return (
-//         <Box sx={{ m: '2px'}}>
-//             {/* <BasicCard /> */}
-//             <Card sx={{ p: '10px', m: '5px', width: 600 }} >
-//                 <Typography variant="h5" sx={{ fontFamily: 'Roboto' , fontWeight: 'bold' , color: 'black'}} color="text.secondary" gutterBottom>
-//                     Login / Register
-//                 </Typography>
-//                 <Typography variant="h6" sx={{ fontFamily: 'Roboto', color: 'red'}} gutterBottom>
-//                     Please enter your Phone Number
-//                 </Typography>
-//                 <Headingtext name='Avinash'/>
-//             </Card>
-//         </Box>
-//     );
-// }
-
-
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Grid, Box, Alert, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -29,7 +6,7 @@ import signinpic from "../../asset/images/image1.jpeg";
 import Selectbox from '../../component/Select';
 
 
-function SignIn() {
+function Register() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -73,64 +50,56 @@ function SignIn() {
 
                     <form onSubmit={handleSubmit} >
                         <Box display='flex' xs={12} paddingBottom={2}  >
-                            <img src={signinpic} alt='Sign in pic' width={50} style={{ borderRadius: 15 }} />
-                            <Typography paddingLeft={3} variant='h4' >Sign In Form</Typography>
+                            <Typography paddingLeft={3} variant='h4' >Create Account</Typography>
                         </Box>
-
-                        <Typography align='left' variant='h6'>Please Enter Your Login Details</Typography>
 
                         <TextField
                             required
-                            label="Name"
+                            label="Full Name"
                             id='name'
                             defaultValue=''
                             variant="outlined"
                             margin="normal"
                             fullWidth
+                        // type='number'
                         // value={password}
                         // onChange={(e) => setPassword(e.target.value)}
                         />
 
                         <TextField
                             required
-                            label="Email"
-                            id='email'
+                            label="Email id"
+                            id='email id'
                             defaultValue=''
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                        // helperText="Enter Email Id"
-                        // value={email}
-                        // onChange={(e) => setEmail(e.target.value)}
+                        // type='number'
+                        // value={password}
+                        // onChange={(e) => setPassword(e.target.value)}
                         />
 
-                        <Box py={1}></Box>
-                        <Selectbox />
-                        <Box pb={2}></Box>
-
-                        {/* <Box display='flex' flexDirection='row-reverse'>
-                            <Button href='#' align='start'>Forget Password?</Button>
-                        </Box> */}
+                        <TextField
+                            required
+                            label="Phone Number"
+                            id='phonenumber'
+                            defaultValue=''
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            type='number'
+                        // value={password}
+                        // onChange={(e) => setPassword(e.target.value)}
+                        />
 
                         <Button fullWidth={true} style={{ color: "black", backgroundColor: 'pink' }}
                             type="submit"
                             variant="contained"
-                            // color="primary"
                             margin="normal"
-                            // onClick={() => {
-                            //     <Alert severity='error' >hi</Alert>
-                            // }}
                             onClick={handleButtonClick}
                         >
                             Create Account
                         </Button>
-
-                        {/* <Alert severity='error'>This is data</Alert> */}
-
-                        {/* <Box display='flex' alignItems='center' py={2}>
-                            <Typography>Don`t have an account</Typography>
-                            <Button href='/signup'>Register</Button>
-                        </Box> */}
 
                         <Dialog open={open} onClose={handleClose}>
                             <DialogTitle>Alert</DialogTitle>
@@ -152,4 +121,4 @@ function SignIn() {
     );
 }
 
-export default SignIn;
+export default Register;

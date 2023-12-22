@@ -1,42 +1,50 @@
-// import { Box, Card, Typography } from "@mui/material";
-// import BasicCard from "../../component/Card";
-// import myPrimaryColor from '../../utils/Mytheme';
-// import { Headingtext } from "../../utils/Mytypography";
-
-// export default function Signin() {
-//     return (
-//         <Box sx={{ m: '2px'}}>
-//             {/* <BasicCard /> */}
-//             <Card sx={{ p: '10px', m: '5px', width: 600 }} >
-//                 <Typography variant="h5" sx={{ fontFamily: 'Roboto' , fontWeight: 'bold' , color: 'black'}} color="text.secondary" gutterBottom>
-//                     Login / Register
-//                 </Typography>
-//                 <Typography variant="h6" sx={{ fontFamily: 'Roboto', color: 'red'}} gutterBottom>
-//                     Please enter your Phone Number
-//                 </Typography>
-//                 <Headingtext name='Avinash'/>
-//             </Card>
-//         </Box>
-//     );
-// }
-
-
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Grid, Box, Alert, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import signinpic from "../../asset/images/image1.jpeg";
 import Selectbox from '../../component/Select';
+import { useNavigate } from 'react-router-dom';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import auth from '../../firebase/Firebasesetup';
 
 
-function SignIn() {
+const Mobileno = () => {
+
+    const sendOtp = async () => {
+        try {
+            const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
+            const confirmation = await signInWithPhoneNumber(auth, phone, recaptcha);
+            // console.log(confirmation);
+            setUser(confirmation);
+        }
+        catch (err) {
+            console.error(err);
+        }
+
+    }
+    const verifyOtp = async () => {
+        try {
+            const otpdata = await user.confirm(otp);
+            console.log(otpdata);
+        } catch (err) {
+            console.error(err);
+        }
+
+    }
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [phone, setPhone] = useState("");
+    const [user, setUser] = useState(null);
+    const [otp, setOtp] = useState("");
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({ email, password });
+        // console.log({ email, password });
+        console.log({ phone });
     };
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -50,7 +58,9 @@ function SignIn() {
     const [open, setOpen] = useState(false);
 
     const handleButtonClick = () => {
-        setOpen(true);
+        sendOtp();
+        // setOpen(true);
+        // navigate('/register');
     };
 
     const handleClose = () => {
@@ -71,66 +81,35 @@ function SignIn() {
 
                 <Grid item xs={12} md={4} px={2} paddingTop={5} spacing={5}  >
 
-                    <form onSubmit={handleSubmit} >
+                    {/* <form onSubmit={handleSubmit} >
                         <Box display='flex' xs={12} paddingBottom={2}  >
                             <img src={signinpic} alt='Sign in pic' width={50} style={{ borderRadius: 15 }} />
-                            <Typography paddingLeft={3} variant='h4' >Sign In Form</Typography>
+                            <Typography paddingLeft={3} variant='h4' >Login / Register</Typography>
                         </Box>
 
                         <Typography align='left' variant='h6'>Please Enter Your Login Details</Typography>
 
                         <TextField
                             required
-                            label="Name"
-                            id='name'
+                            label="Phone Number"
+                            id='phone'
                             defaultValue=''
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                        // value={password}
-                        // onChange={(e) => setPassword(e.target.value)}
+                            // type='number'
+                            // value={password}
+                            onChange={(e) => setPhone(e.target.value)}
                         />
-
-                        <TextField
-                            required
-                            label="Email"
-                            id='email'
-                            defaultValue=''
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                        // helperText="Enter Email Id"
-                        // value={email}
-                        // onChange={(e) => setEmail(e.target.value)}
-                        />
-
-                        <Box py={1}></Box>
-                        <Selectbox />
-                        <Box pb={2}></Box>
-
-                        {/* <Box display='flex' flexDirection='row-reverse'>
-                            <Button href='#' align='start'>Forget Password?</Button>
-                        </Box> */}
 
                         <Button fullWidth={true} style={{ color: "black", backgroundColor: 'pink' }}
                             type="submit"
                             variant="contained"
-                            // color="primary"
                             margin="normal"
-                            // onClick={() => {
-                            //     <Alert severity='error' >hi</Alert>
-                            // }}
                             onClick={handleButtonClick}
                         >
-                            Create Account
+                            Continue
                         </Button>
-
-                        {/* <Alert severity='error'>This is data</Alert> */}
-
-                        {/* <Box display='flex' alignItems='center' py={2}>
-                            <Typography>Don`t have an account</Typography>
-                            <Button href='/signup'>Register</Button>
-                        </Box> */}
 
                         <Dialog open={open} onClose={handleClose}>
                             <DialogTitle>Alert</DialogTitle>
@@ -144,7 +123,43 @@ function SignIn() {
                                 <Button onClick={handleClose}>Closed</Button>
                             </DialogActions>
                         </Dialog>
-                    </form>
+                    </form> */}
+                    <h1>Print Firebase</h1>
+                    <input placeholder='Phone number' onChange={(e) => setPhone(e.target.value)} />
+                    {/* <div id='recaptcha'>
+
+                    </div> */}
+                    <button onClick={sendOtp}>Send</button>
+
+                    <h1>Verify Otp</h1>
+                    <input placeholder='Otp' onChange={(e) => setOtp(e.target.value)} />
+                    <button onClick={verifyOtp}>Verify OTP</button>
+
+                    <TextField
+                        required
+                        label="Phone Number"
+                        id='phone'
+                        defaultValue=''
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        // type='number'
+                        // value={password}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
+                    <Box id='recaptcha'></Box>
+                    {/* <div id='recaptcha'>
+
+                    </div> */}
+                    <Button fullWidth={true} style={{ color: "black", backgroundColor: 'pink' }}
+                        type="submit"
+                        variant="contained"
+                        margin="normal"
+                        onClick={sendOtp}
+                    >
+                        Continue
+                    </Button>
+
                 </Grid>
 
             </Grid>
@@ -152,4 +167,4 @@ function SignIn() {
     );
 }
 
-export default SignIn;
+export default Mobileno;
